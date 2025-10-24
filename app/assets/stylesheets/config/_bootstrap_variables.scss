@@ -4,6 +4,10 @@
 // 2. These variables are defined with default value (see https://robots.thoughtbot.com/sass-default)
 // 3. You can override them below!
 
+// Import your fonts and colors first
+@use "fonts" as *;   // now $body-font, $headers-font are available
+@use "colors" as *;  // now $red, $blue, $green, $gray, $light-gray, etc. are available
+
 // General style
 $font-family-sans-serif: $body-font;
 $headings-font-family:   $headers-font;
