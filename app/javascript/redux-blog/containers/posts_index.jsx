@@ -1,3 +1,4 @@
+// app/javascript/redux-blog/containers/posts_index.jsx
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -6,9 +7,7 @@ import { fetchPosts } from '../actions/index';
 
 class PostsIndex extends Component {
   componentDidMount() {
-    if (!this.props.posts) {
-      this.props.fetchPosts();
-    }
+    this.props.fetchPosts();
   }
 
   renderPosts() {
@@ -22,6 +21,7 @@ class PostsIndex extends Component {
         <div className="post-item">
           <h3>{post.title}</h3>
           <p>{post.content}</p>
+          <p>{post.created_at}</p>
         </div>
       </Link>
     ));

@@ -1,6 +1,8 @@
+# app/controllers/api/v1/posts_controller.rb
 class Api::V1::PostsController < ActionController::API
   def index
     @posts = Post.order(created_at: :desc)
+    # puts @posts
     render json: @posts
   end
 

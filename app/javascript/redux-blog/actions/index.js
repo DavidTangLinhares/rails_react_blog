@@ -1,8 +1,9 @@
+// app/javascript/redux-blog/actions/index.js
 export const FETCH_POSTS = 'FETCH_POSTS';
 export const FETCH_POST = 'FETCH_POST';
 export const POST_CREATED = 'POST_CREATED';
 
-const ROOT_URL = '/api/v1';
+const ROOT_URL = '/api/v1/posts';
 
 export function fetchPosts() {
   const promise = fetch(ROOT_URL).then((response) => response.json());

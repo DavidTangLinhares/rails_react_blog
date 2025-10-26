@@ -1,30 +1,32 @@
+// app/javascript/redux-blog/reducers/posts_reducer.js
 import { FETCH_POSTS, FETCH_POST, POST_CREATED } from '../actions';
+
+function sortNewest(posts) {
+  return posts.slice().sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+}
 
 export default function postsReducer(state = [], action) {
   switch (action.type) {
     case FETCH_POSTS:
-      console.log("Reducer received:", action.payload);
-      return action.payload.posts || [];
+      // console.log("postReducer - FETCH_POSTS - action payload: ", action.payload);
+      return sortNewest(action.payload || []);
 
-    // merge or update one post instead of replacing all
     case FETCH_POST:
       const post = action.payload;
       const existing = state.find((p) => p.id === post.id);
-      if (existing) {
-        return state.map((p) => (p.id === post.id ? post : p));
-      } else {
-        return [...state, post];
-      }
+      const newState = existing
+        ? state.map((p) => (p.id === post.id ? post : p))
+        : [post, ...state];
+      return sortNewest(newState);
 
     case POST_CREATED:
-      console.log('POST_CREATED - state:', state);
-      console.log('POST_CREATED - payload:', action.payload);
+      // console.log('postReducer - POST_CREATED - state:', state);
+      // console.log('postReducer - POST_CREATED - payload:', action.payload);
       if (action.error || !action.payload || !action.payload.id) {
-        // Do not add invalid post
-        console.log('POST_CREATED - invalid payload, not adding to state');
+        // console.log('postReducer - POST_CREATED - invalid payload, not adding to state');
         return state;
       }
-      return [action.payload, ...state];
+      return sortNewest([action.payload, ...state]);
 
     default:
       return state;
