@@ -8,13 +8,12 @@ import { createPost } from '../actions';
 import { withRouter } from '../utils/with_router';
 
 class PostsNew extends Component {
+
   onSubmit = (values) => {
-    console.log('onSubmit: ', values);
-    this.props.createPost(values, (post) => {
-      this.props.navigate('/'); // Navigate after submit
-        return post;
-    });
-  }
+    const newPost = this.props.createPost(values);
+    console.log('Created post:', newPost);
+    this.props.navigate('/posts');
+  };
 
   renderField(field) {
     return (
@@ -44,7 +43,7 @@ class PostsNew extends Component {
           <Field
             className="form-control"
             label="Content"
-            name="body"
+            name="content"
             component="textarea"
             rows="8"
           />

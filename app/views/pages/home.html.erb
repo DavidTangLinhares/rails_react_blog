@@ -1,1 +1,2 @@
-<div class="container" id="root"></div>
+<div class="container" id="root" data-posts="<%= @posts.to_json %>"></div>
+<%= javascript_include_tag "application", type: "module", "data-turbo-track": "reload" %>

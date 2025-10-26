@@ -2,7 +2,7 @@ export const FETCH_POSTS = 'FETCH_POSTS';
 export const FETCH_POST = 'FETCH_POST';
 export const POST_CREATED = 'POST_CREATED';
 
-const ROOT_URL = 'https://dummyjson.com/posts';
+const ROOT_URL = '/api/v1';
 
 export function fetchPosts() {
   const promise = fetch(ROOT_URL).then((response) => response.json());
@@ -32,11 +32,22 @@ export function fetchPost(id) {
 //   payload: request
 // };
 
-export function createPost(post, callback) {
-  // console.log('createPost: ', post);
-  callback();
+export function createPost(post) {
+  const promise = fetch('/api/v1/posts', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ post })
+  })
+    .then(async (response) => {
+      if (!response.ok) {
+        const err = await response.json();
+        return Promise.reject(err);
+      }
+      return response.json(); // <-- parsed post
+    });
+
   return {
     type: POST_CREATED,
-    payload: post
+    payload: promise
   };
 }

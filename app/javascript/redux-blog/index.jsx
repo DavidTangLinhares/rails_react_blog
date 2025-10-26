@@ -1,3 +1,5 @@
+// app/javascript/redux-blog/index.jsx
+
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
@@ -19,21 +21,24 @@ const reducers = combineReducers({
   form: formReducer
 });
 
-const middlewares = applyMiddleware(reduxPromise, logger);
-const store = createStore(reducers, {}, middlewares);
-
 const container = document.getElementById('root');
-const root = createRoot(container);
+if (container) {
+  const posts = JSON.parse(container.dataset.posts || '[]');
+  const initialState = { posts };
+  const middlewares = applyMiddleware(reduxPromise, logger);
+  const store = createStore(reducers, initialState, middlewares);
+  const root = createRoot(container);
 
-root.render(
-  <Provider store={store}>
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Navigate to="/posts" />} />
-        <Route path="/posts" element={<PostsIndex />} />
-        <Route path="/posts/new" element={<PostsNew />} />
-        <Route path="/posts/:id" element={<PostsShow />} />
-      </Routes>
-    </BrowserRouter>
-  </Provider>
-);
+  root.render(
+    <Provider store={store}>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Navigate to="/posts" />} />
+          <Route path="/posts" element={<PostsIndex />} />
+          <Route path="/posts/new" element={<PostsNew />} />
+          <Route path="/posts/:id" element={<PostsShow />} />
+        </Routes>
+      </BrowserRouter>
+    </Provider>
+  );
+}
